@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public class BoxScript : MonoBehaviour {
 
-	public static int gridWidthRadius = 5;
+	public static float gridWidthRadius = 2.5f;
 	public static int gridHeightRadius = 4;
-	public static int gridWidth = gridWidthRadius*2 + 1; // -5 to 5 
+	public static int gridWidth = (int)(gridWidthRadius*2) + 1; // -2.5 to 2.5 
 	public static int gridHeight = gridHeightRadius*2 + 1; // -4 to 4
 	public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 	public static List<Vector2> currentSelection = new List<Vector2> ();
@@ -36,8 +36,8 @@ public class BoxScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Add the location of the block to the grid
-		Vector2 v = Round(transform.position);
-		myX = (int)v.x + gridWidthRadius;
+		Vector2 v = transform.position;
+		myX = (int)(v.x + gridWidthRadius);
 		myY = (int)v.y + gridHeightRadius;
 		grid[myX, myY] = transform;
 		falling = true;
@@ -95,7 +95,9 @@ public class BoxScript : MonoBehaviour {
 					// just do nothing?
 				}
 			}
-		} else if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended && isSelected) {
+		}
+
+		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended && isSelected) {
 			PlayWord ();
 		} else if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Canceled && isSelected) {
 			ClearAllSelectedTiles ();
@@ -140,7 +142,7 @@ public class BoxScript : MonoBehaviour {
 
 	bool IsInsideTile(Vector2 pos) {
 		Vector2 realPos = Camera.main.ScreenToWorldPoint (pos);
-		int trueX = myX - gridWidthRadius;
+		float trueX = myX - gridWidthRadius;
 		int trueY = myY - gridHeightRadius;
 
 		// slight border around edge to make it easier to get diagonals
@@ -193,7 +195,7 @@ public class BoxScript : MonoBehaviour {
 		if (IsValidWord (currentWord)) {
 			int submittedScore = GetScoringFunction (currentWord);
 			score += submittedScore;
-			scoreText.text = "Total Points: " + score;
+			scoreText.text = "Points: " + score;
 			submittedWordText.text = currentWord;
 			submittedScoreText.text = ": " + submittedScore + " points";
 
@@ -341,12 +343,8 @@ public class BoxScript : MonoBehaviour {
 		return name.Substring (6, 1);
 	}
 
-	public static Vector2 Round(Vector2 v) {
-		return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
-	}
-
 	public static bool IsInsideGrid(Vector2 pos) {
-		int x = (int)pos.x;
+		float x = pos.x;
 		int y = (int)pos.y;
 		return (x >= -gridWidthRadius && x <= gridWidthRadius && y >= -gridHeightRadius && y <= gridHeightRadius);
 	}
@@ -362,13 +360,13 @@ public class BoxScript : MonoBehaviour {
 	}
 		
 	bool IsValidPosition() {        
-		Vector2 v = Round(transform.position);
+		Vector2 v = transform.position;
 
 		if (!IsInsideGrid (v)) {
 			return false;
 		}
-		if (grid [(int)v.x + gridWidthRadius, (int)v.y + gridHeightRadius] != null &&
-		    grid [(int)v.x + gridWidthRadius, (int)v.y + gridHeightRadius] != transform) {
+		if (grid [(int)(v.x + gridWidthRadius), (int)v.y + gridHeightRadius] != null &&
+			grid [(int)(v.x + gridWidthRadius), (int)v.y + gridHeightRadius] != transform) {
 			return false;
 		}
 
@@ -397,8 +395,8 @@ public class BoxScript : MonoBehaviour {
 		grid [myX, myY] = null;
 
 		// Add the new location of the block to the grid
-		Vector2 v = Round(transform.position);
-		myX = (int)v.x + gridWidthRadius;
+		Vector2 v = transform.position;
+		myX = (int)(v.x + gridWidthRadius);
 		myY = (int)v.y + gridHeightRadius;
 		grid[myX, myY] = transform;
 	}
