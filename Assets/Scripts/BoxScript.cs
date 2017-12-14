@@ -65,7 +65,6 @@ public class BoxScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// Check touch input updates
-
 		if (Input.touchCount > 0 && IsInsideTile (Input.GetTouch (0).position)) {
 			//Debug.Log ("Inside Tile worked!");
 
@@ -146,8 +145,8 @@ public class BoxScript : MonoBehaviour {
 		int trueY = myY - gridHeightRadius;
 
 		// slight border around edge to make it easier to get diagonals
-		return (realPos.x > trueX - 0.40 && realPos.x <= trueX + 0.40 &&
-				realPos.y > trueY - 0.40 && realPos.y <= trueY + 0.40);
+		return (realPos.x > trueX - 0.37 && realPos.x <= trueX + 0.37 &&
+				realPos.y > trueY - 0.37 && realPos.y <= trueY + 0.37);
 	}
 
 	public static void PlayWord() {
