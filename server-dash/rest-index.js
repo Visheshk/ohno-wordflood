@@ -1,5 +1,6 @@
 require('dotenv').config()
 var express = require('express');
+var cors = require('cors');
 var app = express();
 var bodyParser = require("body-parser");
 
@@ -47,6 +48,7 @@ admin.initializeApp({
   databaseURL: "https://wordflood-bf7c4.firebaseio.com"
 });
 
+app.options('*', cors())
 
 var fdb = admin.database();
 var ref = fdb.ref("WFLogs_V1_0_2");
@@ -138,7 +140,7 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/logs/', function (req, res) {
+app.post('/logs/', cors(), function (req, res) {
   // console.log(req.headers[headCheck] == headText);
   
   if (req.headers[headCheck] == headText){
