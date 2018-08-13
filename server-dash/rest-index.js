@@ -142,6 +142,10 @@ app.post('/logs/', function (req, res) {
   // console.log(req.headers[headCheck] == headText);
   
   if (req.headers[headCheck] == headText){
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Allow-Headers", "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      res.setHeader("Access-Control-Allow-Origin", "*");
       res.send('Successful POST');
       io.emit('postLog', req.body);
       db.restLogs.insert(req.body);
